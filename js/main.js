@@ -9,7 +9,8 @@ let maxDataVal = 5000; // max data value
 // *****************************************************
 // INITIALIZE ACCOUNTS ARRAY
 // *****************************************************
-let accounts = [];
+let accounts = Array.from({ length: 50 }, () => Math.floor(Math.random() * maxDataVal));
+
 
 // ******************************************************
 // MENU SELECTION FUNCTIONS
@@ -20,7 +21,16 @@ function deposit() {
   // Adjust the maxDataVal variable if necessary.
   // Use the outputEl to provide a confirmation message.
 
-  outputEl.innerHTML = "Deposit";
+  let index = +prompt("Enter account index");
+  let amount = +prompt("Enter Deposit amount");
+
+  accounts[index] += amount;
+
+  if (accounts[index] > maxDataVal) {
+    maxDataVal = accounts[index];
+  }
+
+  outputEl.innerHTML = "Deposit Completed";
 }
 
 function withdrawal() {
@@ -29,14 +39,32 @@ function withdrawal() {
   // Check to assure that the account has enough funds.
   // Use the outputEl to provide a confirmation message.
 
-  outputEl.innerHTML = "Withdrawal";
+  let index =+ prompt("Enter account index");
+  let amount =+ prompt("Enter Withdrawal amount");
+
+  if (accounts[index] >= amount) {
+    accounts[index] -= amount;
+    outputEl.innerHTML = "Withdrawal Completed";
+  } else {
+    outputEl.innerHTML = "Insufficient Funds";
+  }
+
+
 }
 
 function countUnder2000() {
   // Count the number of accounts that are less than 2000
   // Use the outputEl to display the results of the count.
 
-  outputEl.innerHTML = "Count Under $2000";
+  let count = 0;
+
+  for (let i = 0; i < accounts.length; i++) {
+    if (accounts[i] < 2000) {
+      count++;
+    }
+  }
+
+  outputEl.innerHTML = "Count Under $2000: " + count;
 }
 
 function generousDonor() {
@@ -45,13 +73,29 @@ function generousDonor() {
   // Modify the investment account array to apply this donation.
   // Use the outputEl to display the total amount of money that was donated.
 
-  outputEl.innerHTML = "Generous Donor";
+  let total = 0;
+
+  for (let i = 0; i < accounts.length; i++) {
+    if (accounts[i] < 2000) {
+      accounts[i] += 500;
+      total += 500;
+    }
+  }
+
+  outputEl.innerHTML = "Generous Donor Donated: $" + total;
 }
 
 function hackerAttack() {
   // A hacker steals 5% from every account.
   // Modify the investment account array to apply this theft.
   // Use the outputEl to display the total amount that was stolen.
+
+  let total = 0;
+
+  for (let i = 0; i < accounts.length; i++) {
+    accounts[i] -= accounts[i] * 0.05;
+    total += accounts[i] * 0.05;
+  }
 
   outputEl.innerHTML = "Hacker Attack";
 }
